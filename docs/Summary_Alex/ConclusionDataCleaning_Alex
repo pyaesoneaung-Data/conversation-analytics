@@ -1,0 +1,24 @@
+## Cleaning summary
+
+
+After removing exact duplicates, the original dataset contained **22,743 rows
+and 6 columns**. The final cleaned dataset prepared for keyword analysis
+contains **6,525 rows and 9 columns**.
+
+A total of **16,218 rows**, or approximately **71.3% of the dataset**, were
+excluded from the keyword analysis.
+
+> **Most of the excluded rows were administrator or chatbot responses rather
+> than messages written by customers.**
+
+Because the goal of this project is to identify customer concerns, product
+questions, and campaign-related interest, the keyword analysis focuses only on
+useful customer-written messages. Advertisement-entry text, empty messages,
+personal-information placeholders, and low-information responses such as
+“yes,” “okay,” and “correct” were also excluded because they do not independently
+describe a customer concern.
+
+Although the number of excluded rows is large, this reduction is reasonable
+for the project goal. The original dataset remains unchanged, and the excluded
+administrator and chatbot messages can still be used later for conversation-flow
+or chatbot-performance analysis.
