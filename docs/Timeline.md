@@ -6,7 +6,7 @@
 | Tuesday | Extract information using three different methods | Joanna, Alex, and Meena |
 | Tuesday | Intent classification | Joanna |
 | Tuesday | Keyword search | Alex |
-| Tuesday | Embedding model | Meena |
+| Tuesday | Topic Modeling | Meena |
 | Thursday | Create data visualizations and presentation | All team members |
 | Thursday, 5:00 PM | Final project update and presentation | All team members |
 
