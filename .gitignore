@@ -50,3 +50,7 @@ env/
 # Environment files
 .env
 .env.*
+
+# Power BI files
+*.pbix
+*.pbit
