@@ -1,0 +1,27 @@
+## Keyword Search Process
+
+Keyword search was used as a baseline method to analyze customer-chatbot conversations in the loan and insurance domain. The goal was to turn message text into structured fields showing product mentions, product types, customer concerns, contact reasons, product conditions and requirements, payment and application questions, campaign questions, campaign joining interest, system issues, and complaints.
+
+The process starts from the cleaned customer-message dataset created by preprocessing. The source field `message_english` is kept for review, and keyword rules are applied to `cleaned_message`, a normalized version of the English-translated message text. Roles are standardized into customer, chatbot, agent, system, or unknown. Customer-message summaries use customer rows, while the full message-level output includes all cleaned rows.
+
+The method is rule-based and does not use machine learning. Message text is lowercased, whitespace is cleaned, placeholders are removed, and punctuation is limited. The project defines dictionaries of products, concerns, and campaign keywords. The classifier uses exact phrase matching with regular expressions, so one message can match more than one product, concern, or campaign keyword. It records matched keywords, assigns primary product and concern values using priority rules, stores secondary concerns, and creates a customer intent from the primary concern. Campaign-related messages are detected from cleaned message text and `detected_ad_name` when available.
+
+The main output fields include `industry_category`, `product_category`, `product_subcategory`, `primary_concern`, `secondary_concerns`, `customer_intent`, `is_campaign_related`, `campaign_question_type`, `campaign_related_product`, and `campaign_joining_intent`.
+
+The project creates both message-level and userID-level analysis. Message-level analysis gives one classified row per message. Conversation-level analysis groups messages by `userID`, combines customer messages, and summarizes products, concerns, intents, campaign status, and issue flags. This helps avoid counting one active customer many times. A limitation is that the pipeline uses `userID` because it does not use a separate conversation-session ID.
+
+The Power BI export creates CSV files in `data/processed/powerbi/`:
+
+- `message_level_analytics.csv`: detailed classified rows for message review and dashboard filters.
+- `conversation_level_analytics.csv`: one summarized row per `userID`.
+- `concern_summary.csv`: counts and customer coverage by primary concern.
+- `product_summary.csv`: product and industry summaries with top concerns.
+- `campaign_summary.csv`: campaign-related questions, products, and joining intent.
+- `monthly_trend_summary.csv`: monthly trends by industry, concern, and intent.
+- `keyword_match_review.csv`: review sample for low-confidence, multi-category, and sampled messages.
+
+Keyword search was used because it is simple, transparent, fast to run, easy to explain, and useful as a baseline for Power BI reporting. It supports comparison with intent-classification and embedding-based approaches. Its advantages are that matched keywords can be reviewed, no model training is required, categories can be adjusted, and the output is easy to convert into dashboard columns.
+
+The method also has limitations. It may miss spelling variations, unclear wording, or words outside the dictionaries. Broad keywords can create false matches, and the same word can mean different things in different contexts. Some messages may remain `Unknown`. Matching quality also depends on the English translation, and campaign names from ad fields may be technical or difficult to interpret.
+
+Quality checks include reviewing matched keywords, creating `keyword_match_review.csv`, identifying low-confidence and multi-category messages, checking duplicate message IDs, checking classification coverage and Unknown percentages, and validating date formats after CSV export. Overall, the keyword-search process transformed unstructured messages into structured fields that can be summarized and visualized in Power BI. These results should be treated as a baseline and improved by refining keywords or comparing them with the team’s intent-classification and embedding methods.
